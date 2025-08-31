@@ -1,11 +1,19 @@
-import React from "react";
 import { usePuterStore } from "~/lib/puter";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router";
 export const meta = () => [
   { title: "SkillSync || Account" },
   { name: "description", content: "Log into your account" },
 ];
 const auth = () => {
+  const location = useLocation();
+  const next = location.search.split("next=")[1];
+  const navigate = useNavigate();
+
   const { isLoading, auth } = usePuterStore();
+  useEffect(() => {
+    if (auth.isAuthenticated) navigate(next);
+  }, [auth.isAuthenticated, next]);
   return (
     <main className="bg-[url('/images/bg-main.svg')] bg-cover min-h-screen flex items-center justify-center">
       <div className="gradient-border shadow-lg">
